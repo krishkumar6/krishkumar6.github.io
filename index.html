@@ -1,0 +1,16 @@
+---
+layout: default
+---
+<section class="intro">
+  <p>{{ site.description }}</p>
+</section>
+
+<section class="post-list">
+  {% for post in site.posts %}
+  <a class="post-item" href="{{ post.url | relative_url }}">
+    <time class="post-item-date">{{ post.date | date: "%b %-d, %Y" }}</time>
+    <h2 class="post-item-title">{{ post.title }}</h2>
+    <p class="post-item-excerpt">{{ post.excerpt | strip_html | truncate: 140 }}</p>
+  </a>
+  {% endfor %}
+</section>
