@@ -4,7 +4,7 @@ title: Resume
 permalink: /resume/
 ---
 
-**Krish Kumar** — Greater Noida, UP
+**Krish Kumar**
 [krishkumarmath@gmail.com](mailto:krishkumarmath@gmail.com) · [GitHub: Krishkumar6](https://github.com/Krishkumar6) · LeetCode: 500+ problems solved · [Blog: krishkumar6.github.io](/)
 
 ## Summary
