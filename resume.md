@@ -5,7 +5,7 @@ permalink: /resume/
 ---
 
 **Krish Kumar**
-[krishkumarmath@gmail.com](mailto:krishkumarmath@gmail.com) · [GitHub: Krishkumar6](https://github.com/Krishkumar6) · LeetCode: 500+ problems solved · [Blog: krishkumar6.github.io](/)
+[krishkumarmath@gmail.com](mailto:krishkumarmath@gmail.com) · [GitHub: Krishkumar6](https://github.com/Krishkumar6) · [LeetCode](https://leetcode.com/u/krish_3v/): 500+ problems solved · [Blog: krishkumar6.github.io](/)
 
 ## Summary
 
