@@ -106,6 +106,21 @@ section.sec{padding:72px 0}
 .metric{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--glass)}
 .metric b{display:block;font:700 30px/1.1 var(--display);letter-spacing:-.02em}
 .metric span{display:block;font-size:14px;color:var(--muted);margin-top:6px;line-height:1.45}
+/* problem / approach / results */
+.story{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:860px){.story{grid-template-columns:1fr}}
+.panel{position:relative;border:1px solid var(--line);border-radius:16px;padding:22px 20px;background:var(--glass);display:grid;gap:12px;align-content:start}
+.panel::before{content:"";position:absolute;left:20px;right:20px;top:-1px;height:2px;border-radius:2px;background:var(--grad);opacity:.7}
+.panel .step{font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cyan)}
+.panel h4{font:600 20px/1.2 var(--display);letter-spacing:-.01em}
+.panel p,.panel li{font-size:15px;color:#C3C8D8;line-height:1.6}
+.panel ul{padding-left:18px;display:grid;gap:8px}
+.panel li::marker{color:var(--violet)}
+.results{list-style:none;padding:0 !important;display:grid;gap:12px !important}
+.results li{display:grid;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.results li:last-child{border-bottom:0;padding-bottom:0}
+.results b{font:700 26px/1.15 var(--display);letter-spacing:-.02em}
+.results span{font-size:14px;color:var(--muted);line-height:1.45}
 .chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;list-style:none}
 .chips li{font:13px/1 var(--mono);padding:7px 11px;border-radius:999px;border:1px solid var(--line);color:#C4C9DA;background:rgba(255,255,255,.025)}
 .actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
@@ -243,10 +258,32 @@ footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--dim);fon
         <figcaption class="shot-cap">A real answer from the live demo, with its confidence, time, token cost and how it defined "MRR".</figcaption>
       </figure>
 
-      <div class="metrics">
-        <div class="metric"><b class="grad">97%</b><span>33 of 34 SQL questions correct, checked against hand-written queries</span></div>
-        <div class="metric"><b class="grad">3 / 3</b><span>unanswerable questions declined instead of making up a number</span></div>
-        <div class="metric"><b class="grad">~2 calls</b><span>LLM calls per question, about 4k tokens, so cost stays predictable</span></div>
+      <div class="story">
+        <div class="panel">
+          <span class="step">01 · Problem</span>
+          <h4>Getting a simple number takes an engineer</h4>
+          <p>Managers wait for someone to write SQL just to answer "what's our revenue by plan?". An AI can write that SQL, but it's risky: it might change or delete data, or give a confident wrong number.</p>
+        </div>
+        <div class="panel">
+          <span class="step">02 · Approach</span>
+          <h4>An AI that writes SQL safely</h4>
+          <ul>
+            <li>The LLM returns structured JSON: the SQL, its reasoning and a confidence level</li>
+            <li>A tool checks real values in the database before filtering, so it doesn't guess</li>
+            <li>3 safety layers: a read-only database user, transactions that are always rolled back, and SQL validation with sqlglot</li>
+            <li>If a query fails, it reads the real error and fixes it once</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <span class="step">03 · Results</span>
+          <h4>Measured on 39 test questions</h4>
+          <ul class="results">
+            <li><b class="grad">33 / 34</b><span>SQL questions correct (97%), checked against hand-written queries</span></li>
+            <li><b class="grad">3 / 3</b><span>impossible questions declined instead of making up a number</span></li>
+            <li><b class="grad">0 rows</b><span>changed when asked to "delete the users"</span></li>
+            <li><b class="grad">~2 calls</b><span>to the LLM per question, about 4k tokens</span></li>
+          </ul>
+        </div>
       </div>
 
       <ul class="chips" aria-label="Built with">
@@ -341,10 +378,31 @@ footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--dim);fon
         <figcaption class="shot-cap">Each claim carries a numbered citation, and the source panel shows the file, the page and the passage it came from.</figcaption>
       </figure>
 
-      <div class="metrics">
-        <div class="metric"><b class="grad">88→96%</b><span>right page ranked first, after adding BM25 search and a reranker</span></div>
-        <div class="metric"><b class="grad">12s→3s</b><span>search time on a 512 MB free server, after fixing thread contention</span></div>
-        <div class="metric"><b class="grad">0.3s</b><span>for a repeat question, served from an answer cache with zero LLM tokens</span></div>
+      <div class="story">
+        <div class="panel">
+          <span class="step">01 · Problem</span>
+          <h4>Answers are buried in long PDFs</h4>
+          <p>The answer to a question is usually one paragraph on one page of a long handbook or manual. A chatbot can answer, but if it doesn't show where the answer came from, you can't trust it.</p>
+        </div>
+        <div class="panel">
+          <span class="step">02 · Approach</span>
+          <h4>Search well, then cite the exact page</h4>
+          <ul>
+            <li>Hybrid search: keyword search (BM25) plus meaning-based vector search, then a reranker picks the best passages</li>
+            <li>Every chunk remembers its page, so each citation points to one exact page</li>
+            <li>Citations the model makes up are dropped, never shown</li>
+            <li>A research mode where an agent can search, calculate and check the web, with a step limit</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <span class="step">03 · Results</span>
+          <h4>Measured on 26 labelled questions</h4>
+          <ul class="results">
+            <li><b class="grad">88% → 96%</b><span>right page found first, after adding BM25 and the reranker</span></li>
+            <li><b class="grad">12s → 3s</b><span>search time on a small free server, after fixing a threading issue</span></li>
+            <li><b class="grad">0.3s</b><span>for a repeat question, from an answer cache with zero LLM tokens</span></li>
+          </ul>
+        </div>
       </div>
 
       <ul class="chips" aria-label="Built with">
