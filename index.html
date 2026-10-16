@@ -4,527 +4,444 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Krish Kumar · AI Engineer</title>
-<meta name="description" content="Krish Kumar, AI engineer in Bengaluru. Two deployed LLM projects with live demos and measured results: a text-to-SQL analytics agent and a PDF assistant that cites its sources.">
+<meta name="description" content="Krish Kumar, AI engineer in Bengaluru. I build AI features that are safe, measured and shipped. Two live projects: a text-to-SQL analytics agent and a PDF assistant that cites its sources.">
 <meta property="og:title" content="Krish Kumar · AI Engineer">
-<meta property="og:description" content="A text-to-SQL agent at 33/34 on its eval set, and a PDF assistant that ranks the right page first 96% of the time. Live demos, code and write-ups.">
+<meta property="og:description" content="Two live AI projects with real numbers: a text-to-SQL agent at 33/34 on its tests, and a PDF assistant that finds the right page 96% of the time.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://krishkumar6.github.io/assets/shots/t2s-answer.webp">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#07080D">
+<meta name="theme-color" content="#0A0B10">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 :root{
-  --bg:#07080D; --bg2:#0C0E16; --glass:rgba(255,255,255,.035); --glass-hi:rgba(255,255,255,.06);
-  --line:rgba(255,255,255,.09); --line-hi:rgba(255,255,255,.18);
-  --ink:#EDEEF5; --muted:#9097AC; --dim:#646B80;
-  --violet:#8B5CF6; --blue:#6366F1; --cyan:#22D3EE; --green:#34D399; --red:#F87171;
-  --grad:linear-gradient(100deg,#A78BFA 0%,#818CF8 45%,#22D3EE 100%);
-  --display:"Space Grotesk",system-ui,sans-serif;
-  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --bg:#0A0B10; --card:#11131A; --card2:#151822; --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+  --ink:#F1F2F6; --body:#C5C9D6; --muted:#8B91A3; --dim:#636A7D;
+  --accent:#9B8CFF; --accent2:#5EE6D0; --green:#4ADE80; --red:#F87171;
+  --grad:linear-gradient(95deg,#B4A7FF 0%,#8FA2FF 50%,#5EE6D0 100%);
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Instrument Serif",Georgia,serif;
   --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;background:var(--bg)}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0}
-h1,h2,h3,h4{font-family:var(--display);line-height:1.1;text-wrap:balance}
-a{color:#A5B4FC;text-underline-offset:.2em}
-a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
-code{font-family:var(--mono);font-size:.86em;background:rgba(255,255,255,.07);padding:.1em .35em;border-radius:4px}
+body{margin:0;background:var(--bg);color:var(--body);font:17px/1.7 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4,h5,p,ul,ol,dl,dd,figure{margin:0}
+h1,h2,h3,h4,h5{color:var(--ink);font-weight:600;line-height:1.15;letter-spacing:-.02em;text-wrap:balance}
+a{color:var(--accent);text-underline-offset:.2em}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--accent2);outline-offset:3px;border-radius:6px}
+strong{color:var(--ink);font-weight:600}
+code{font-family:var(--mono);font-size:.84em;background:rgba(255,255,255,.07);padding:.1em .35em;border-radius:4px}
+em.s{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.wrap{max-width:68rem;margin:0 auto;padding:0 20px;position:relative;z-index:1}
-.eyebrow{font:500 12px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
-
-/* background glow + grid */
-.bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.bg::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 75%)}
-.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.45}
-.orb.a{width:520px;height:520px;background:#6D28D9;top:-180px;left:-120px;animation:drift 18s ease-in-out infinite alternate}
-.orb.b{width:460px;height:460px;background:#0E7490;top:-120px;right:-140px;animation:drift 22s ease-in-out infinite alternate-reverse}
-@keyframes drift{to{transform:translate(60px,80px) scale(1.1)}}
+.wrap{max-width:60rem;margin:0 auto;padding:0 20px;position:relative}
+.kicker{font:500 12px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.glow{position:absolute;inset:0 0 auto 0;height:720px;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 20% 0%,rgba(124,108,255,.22),transparent 70%),radial-gradient(ellipse 50% 45% at 85% 5%,rgba(94,230,208,.12),transparent 70%)}
 
 /* nav */
-nav.top{position:sticky;top:0;z-index:10;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(7,8,13,.6);border-bottom:1px solid var(--line)}
-nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
-.logo{font:700 18px var(--display);color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
-.logo i{width:28px;height:28px;border-radius:8px;background:var(--grad);display:grid;place-items:center;font:700 13px var(--display);color:#07080D;font-style:normal}
-.navlinks{display:flex;gap:22px;align-items:center;font-size:14px}
-.navlinks a{color:var(--muted);text-decoration:none}
-.navlinks a:hover{color:var(--ink)}
-@media (max-width:600px){.navlinks .hide-sm{display:none}}
+nav.top{position:sticky;top:0;z-index:10;background:rgba(10,11,16,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:600;font-size:15px}
+.brand i{width:28px;height:28px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font:700 12px var(--sans);color:#0A0B10;font-style:normal}
+.nav-links{display:flex;gap:22px;align-items:center;font-size:14px}
+.nav-links a{color:var(--muted);text-decoration:none}
+.nav-links a:hover{color:var(--ink)}
+@media (max-width:560px){.nav-links .opt{display:none}}
 
 /* buttons */
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;font:600 15px/1 var(--body);text-decoration:none;color:var(--ink);border:1px solid var(--line-hi);background:var(--glass);transition:border-color .2s,background .2s,transform .2s}
-.btn:hover{border-color:rgba(165,180,252,.6);background:var(--glass-hi);transform:translateY(-1px)}
-.btn.primary{border:0;color:#07080D;background:var(--grad);box-shadow:0 8px 30px -8px rgba(129,140,248,.6)}
-.btn.sm{padding:9px 14px;font-size:14px}
-.navlinks .btn{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font:600 15px/1 var(--sans);text-decoration:none;color:var(--ink);border:1px solid var(--line2);background:rgba(255,255,255,.03);transition:border-color .2s,transform .2s,background .2s}
+.btn:hover{border-color:rgba(180,167,255,.6);transform:translateY(-1px)}
+.btn.primary{background:var(--ink);color:#0A0B10;border-color:var(--ink)}
+.btn.primary:hover{background:#fff}
+.btn.sm{padding:8px 14px;font-size:13.5px}
+.nav-links .btn{color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 
 /* hero */
-.hero{padding:96px 0 72px;display:grid;gap:26px}
-.badge{display:inline-flex;align-items:center;gap:10px;width:max-content;max-width:100%;padding:7px 14px;border-radius:999px;border:1px solid var(--line-hi);background:var(--glass);font-size:13px;color:var(--muted)}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(52,211,153,.6);animation:ping 2s infinite;flex:none}
-@keyframes ping{70%{box-shadow:0 0 0 8px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
-.hero h1{font-size:clamp(48px,9vw,96px);font-weight:700;letter-spacing:-.035em;line-height:1}
-.typed{font:500 clamp(22px,3.4vw,34px)/1.3 var(--display);color:var(--muted);min-height:1.3em}
-.typed b{font-weight:600}
-.caret{display:inline-block;width:3px;height:1em;background:var(--cyan);margin-left:4px;vertical-align:-.12em;animation:blink 1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.hero .sub{max-width:56ch;color:var(--muted);font-size:18px}
-.hero .sub strong{color:var(--ink);font-weight:600}
-.ctas{display:flex;flex-wrap:wrap;gap:12px}
-
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:16px;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);margin-top:20px}
-.stats div{padding:22px 22px;border-right:1px solid var(--line)}
-.stats div:last-child{border-right:0}
-.stats b{display:block;font:700 clamp(26px,3.6vw,36px)/1.1 var(--display);letter-spacing:-.02em}
-.stats span{font-size:13px;color:var(--muted);line-height:1.4;display:block;margin-top:6px}
-@media (max-width:760px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stats div:nth-child(2){border-right:0}.stats div:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+.hero{padding:104px 0 88px;display:grid;gap:28px}
+.avail{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(74,222,128,.15);flex:none}
+.hero h1{font-size:clamp(40px,6.6vw,72px);font-weight:600;letter-spacing:-.035em;line-height:1.05;max-width:15ch}
+.hero .lead{font-size:clamp(18px,2.2vw,21px);line-height:1.6;max-width:52ch;color:var(--body)}
+.proof{display:flex;flex-wrap:wrap;gap:10px 28px;padding-top:28px;border-top:1px solid var(--line);margin-top:8px}
+.proof div{display:flex;align-items:baseline;gap:10px}
+.proof b{font:600 26px/1 var(--sans);letter-spacing:-.02em;color:var(--ink)}
+.proof span{font-size:14px;color:var(--muted)}
 
 /* sections */
-section.sec{padding:72px 0}
-.sec-head{display:grid;gap:12px;margin-bottom:40px}
-.sec-head h2{font-size:clamp(32px,5vw,48px);font-weight:700;letter-spacing:-.025em}
-.sec-head p{color:var(--muted);max-width:60ch}
+section.sec{padding:80px 0;border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:14px;margin-bottom:48px}
+.sec-head h2{font-size:clamp(32px,4.6vw,46px);letter-spacing:-.03em}
+.sec-head p{max-width:56ch;color:var(--muted)}
 
-/* project card */
-.project{position:relative;border-radius:22px;padding:1px;background:linear-gradient(140deg,rgba(167,139,250,.55),rgba(255,255,255,.06) 35%,rgba(255,255,255,.04) 65%,rgba(34,211,238,.45));margin-bottom:40px;scroll-margin-top:80px}
-.project-in{border-radius:21px;background:linear-gradient(180deg,rgba(17,19,30,.92),rgba(10,11,18,.96));padding:clamp(22px,4vw,40px);display:grid;gap:28px}
-.p-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:start}
-@media (max-width:640px){.p-top{grid-template-columns:1fr}}
-.p-top h3{font-size:clamp(28px,4.4vw,40px);font-weight:700;letter-spacing:-.02em;margin-top:8px}
-.p-top .lede{color:var(--muted);font-size:17px;max-width:56ch;margin-top:10px}
-.live{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.08);color:var(--green);font:500 13px var(--mono);white-space:nowrap;justify-self:start}
-.shot{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line-hi);box-shadow:0 30px 80px -30px rgba(99,102,241,.55),0 0 0 1px rgba(255,255,255,.02)}
-.shot::before{content:"";display:block;height:30px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line);background-image:radial-gradient(circle at 16px 15px,#F87171 4px,transparent 5px),radial-gradient(circle at 32px 15px,#FBBF24 4px,transparent 5px),radial-gradient(circle at 48px 15px,#34D399 4px,transparent 5px)}
+/* project */
+.project{display:grid;gap:30px;margin-bottom:96px;scroll-margin-top:80px}
+.project:last-child{margin-bottom:0}
+.p-head{display:grid;gap:12px}
+.p-meta{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.live{display:inline-flex;align-items:center;gap:8px;font:500 12.5px var(--mono);color:var(--green);padding:4px 10px;border-radius:999px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25)}
+.live .dot{width:6px;height:6px;box-shadow:none}
+.p-head h3{font-size:clamp(30px,4.4vw,42px);letter-spacing:-.03em}
+.p-head .hook{font-size:clamp(18px,2.1vw,20px);color:var(--body);max-width:52ch}
+.shot{border-radius:14px;overflow:hidden;border:1px solid var(--line2);background:#0D0F15;box-shadow:0 40px 80px -40px rgba(124,108,255,.45)}
+.shot::before{content:"";display:block;height:28px;border-bottom:1px solid var(--line);background-image:radial-gradient(circle at 16px 14px,#3A3F4D 4px,transparent 5px),radial-gradient(circle at 32px 14px,#3A3F4D 4px,transparent 5px),radial-gradient(circle at 48px 14px,#3A3F4D 4px,transparent 5px)}
 .shot img{display:block;width:100%;height:auto}
-.shot-cap{font-size:14px;color:var(--dim);margin-top:10px}
-.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-@media (max-width:640px){.metrics{grid-template-columns:1fr}}
-.metric{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--glass)}
-.metric b{display:block;font:700 30px/1.1 var(--display);letter-spacing:-.02em}
-.metric span{display:block;font-size:14px;color:var(--muted);margin-top:6px;line-height:1.45}
-/* problem / approach / results */
-.story{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-@media (max-width:860px){.story{grid-template-columns:1fr}}
-.panel{position:relative;border:1px solid var(--line);border-radius:16px;padding:22px 20px;background:var(--glass);display:grid;gap:12px;align-content:start}
-.panel::before{content:"";position:absolute;left:20px;right:20px;top:-1px;height:2px;border-radius:2px;background:var(--grad);opacity:.7}
-.panel .step{font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cyan)}
-.panel h4{font:600 20px/1.2 var(--display);letter-spacing:-.01em}
-.panel p,.panel li{font-size:15px;color:#C3C8D8;line-height:1.6}
-.panel ul{padding-left:18px;display:grid;gap:8px}
-.panel li::marker{color:var(--violet)}
-.results{list-style:none;padding:0 !important;display:grid;gap:12px !important}
-.results li{display:grid;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--line)}
-.results li:last-child{border-bottom:0;padding-bottom:0}
-.results b{font:700 26px/1.15 var(--display);letter-spacing:-.02em}
-.results span{font-size:14px;color:var(--muted);line-height:1.45}
-.chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;list-style:none}
-.chips li{font:13px/1 var(--mono);padding:7px 11px;border-radius:999px;border:1px solid var(--line);color:#C4C9DA;background:rgba(255,255,255,.025)}
-.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.note{font-size:13px;color:var(--dim)}
+figcaption{font-size:14px;color:var(--dim);margin-top:10px}
 
-/* case study details */
-details.case{border-top:1px solid var(--line);padding-top:6px}
-details.case summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font:600 16px var(--display);color:#C7D2FE;padding:12px 0}
-details.case summary::-webkit-details-marker{display:none}
-details.case summary::before{content:"+";display:grid;place-items:center;width:26px;height:26px;border-radius:8px;border:1px solid var(--line-hi);font:500 16px/1 var(--mono);color:var(--cyan)}
-details.case[open] summary::before{content:"−"}
-.case-body{display:grid;gap:36px;padding:18px 0 8px}
-.cb{display:grid;grid-template-columns:10rem minmax(0,1fr);gap:22px}
+.story{display:grid;gap:0;border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden}
+.story > div{display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:20px;padding:22px 24px;border-bottom:1px solid var(--line)}
+.story > div:last-child{border-bottom:0}
+@media (max-width:640px){.story > div{grid-template-columns:1fr;gap:6px}}
+.story dt{font:500 12px/1.9 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.story dd{max-width:62ch}
+
+.nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.nums{grid-template-columns:1fr}}
+.num{border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--card)}
+.num b{display:block;font:600 34px/1.1 var(--sans);letter-spacing:-.03em}
+.num span{display:block;font-size:14.5px;color:var(--muted);margin-top:8px;line-height:1.5}
+.stack{font:13.5px/1.7 var(--mono);color:var(--muted)}
+.stack span{color:var(--dim);padding:0 6px}
+.note{font-size:14px;color:var(--dim)}
+
+/* technical deep dive */
+details.deep{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.015)}
+details.deep summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;color:var(--ink);font-weight:600;font-size:15.5px}
+details.deep summary::-webkit-details-marker{display:none}
+details.deep summary small{font-weight:400;color:var(--muted);font-size:14px;margin-left:8px}
+details.deep summary::after{content:"+";font:400 22px/1 var(--sans);color:var(--accent)}
+details.deep[open] summary::after{content:"−"}
+.deep-body{display:grid;gap:34px;padding:8px 20px 26px;border-top:1px solid var(--line)}
+.cb{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:20px;padding-top:22px}
 @media (max-width:760px){.cb{grid-template-columns:1fr;gap:10px}}
-.cb > h4{font:500 12px/1.6 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);padding-top:3px}
-.cb-body{display:grid;gap:16px;min-width:0;color:#C9CDDB}
-.cb-body p{max-width:68ch}
+.cb > h4{font:500 12px/1.8 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.cb-body{display:grid;gap:16px;min-width:0;font-size:15.5px}
+.cb-body p{max-width:66ch}
 .pipe{list-style:none;padding:0;display:grid;gap:8px;counter-reset:s}
-.pipe li{counter-increment:s;display:flex;gap:12px;align-items:baseline;font-size:15px}
-.pipe li::before{content:counter(s,decimal-leading-zero);font:500 12px var(--mono);color:var(--violet);flex:none}
-.decisions{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.pipe li{counter-increment:s;display:flex;gap:12px;align-items:baseline}
+.pipe li::before{content:counter(s,decimal-leading-zero);font:500 12px var(--mono);color:var(--accent);flex:none}
+.decisions{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 @media (max-width:760px){.decisions{grid-template-columns:1fr}}
-.decisions li{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--glass)}
-.decisions h5{margin:0 0 6px;font:600 16px/1.35 var(--display);color:var(--ink)}
+.decisions li{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--card)}
+.decisions h5{font-size:15.5px;margin-bottom:6px;letter-spacing:-.01em}
 .decisions p{font-size:14.5px;color:var(--muted)}
 .table{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
 table{border-collapse:collapse;width:100%;font-size:14.5px}
 th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
 tr:last-child td{border-bottom:0}
-th{font:500 11.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim);background:rgba(255,255,255,.025)}
+th{font:500 11.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim);background:rgba(255,255,255,.02)}
 td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
-tr.hl td{background:rgba(129,140,248,.1);color:var(--ink);font-weight:600}
-.ok{color:var(--green)} .bad{color:var(--red)}
+tr.hl td{background:rgba(155,140,255,.1);color:var(--ink);font-weight:600}
 caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:13px;color:var(--dim);border-top:1px solid var(--line);white-space:normal}
-.callout{border-left:2px solid var(--violet);padding:2px 0 2px 16px;max-width:68ch}
+.callout{border-left:2px solid var(--accent);padding:2px 0 2px 16px;max-width:66ch}
 .callout.miss{border-left-color:var(--red)}
-ul.plain{padding-left:20px;display:grid;gap:6px;max-width:68ch}
+ul.plain{padding-left:20px;display:grid;gap:6px;max-width:66ch}
 
-/* skills */
-.skills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-@media (max-width:860px){.skills{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:560px){.skills{grid-template-columns:1fr}}
-.skill{border:1px solid var(--line);border-radius:16px;padding:20px;background:var(--glass);display:grid;gap:12px;align-content:start;transition:border-color .2s}
-.skill:hover{border-color:rgba(167,139,250,.45)}
-.skill h3{font:600 15px var(--display);display:flex;align-items:center;gap:10px}
-.skill h3 i{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-style:normal;font-size:15px;background:rgba(139,92,246,.15);color:#C4B5FD}
+/* what I bring */
+.bring{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.bring{grid-template-columns:1fr}}
+.bring div{border:1px solid var(--line);border-radius:16px;padding:24px;background:var(--card);display:grid;gap:10px;align-content:start}
+.bring .ic{font:400 30px/1 var(--serif);font-style:italic;color:var(--accent)}
+.bring h3{font-size:19px;letter-spacing:-.015em}
+.bring p{font-size:15.5px;color:var(--muted)}
 
 /* about + contact */
-.about{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:start}
-@media (max-width:820px){.about{grid-template-columns:1fr}}
-.about p{color:#C9CDDB;font-size:17px;max-width:62ch}
-.about p + p{margin-top:14px}
-.facts{border:1px solid var(--line);border-radius:16px;background:var(--glass);padding:6px 20px}
+.about{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:40px;align-items:start}
+@media (max-width:820px){.about{grid-template-columns:1fr;gap:28px}}
+.about p + p{margin-top:16px}
+.facts{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:4px 20px}
 .facts div{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
 .facts div:last-child{border-bottom:0}
-.facts dt{color:var(--muted)} .facts dd{text-align:right;font-weight:500}
-.contact{margin:24px 0 80px;border-radius:24px;padding:clamp(28px,5vw,56px);text-align:center;display:grid;gap:18px;justify-items:center;background:radial-gradient(ellipse at 50% 0%,rgba(139,92,246,.28),transparent 65%),var(--glass);border:1px solid var(--line-hi)}
-.contact h2{font-size:clamp(30px,5vw,48px);letter-spacing:-.025em}
-.contact p{color:var(--muted);max-width:52ch}
+.facts dt{color:var(--muted)} .facts dd{text-align:right;color:var(--ink);font-weight:500}
+.contact{padding:96px 0;border-top:1px solid var(--line);text-align:center;display:grid;gap:22px;justify-items:center}
+.contact h2{font-size:clamp(36px,6vw,60px);letter-spacing:-.035em;max-width:16ch}
+.contact p{max-width:50ch;color:var(--muted)}
 footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--dim);font-size:13px}
 
-/* reveal on scroll (only when JS runs) */
-.js .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+/* gentle reveal (only when JS runs) */
+.js .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
 .js .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
-  .orb,.dot,.caret{animation:none}
   .js .reveal{opacity:1;transform:none;transition:none}
   .btn{transition:none}
 }
 </style>
 </head>
 <body>
-<div class="bg" aria-hidden="true"><div class="orb a"></div><div class="orb b"></div></div>
 
 <nav class="top" aria-label="Main">
   <div class="wrap">
-    <a class="logo" href="#top"><i>KK</i>Krish Kumar</a>
-    <div class="navlinks">
-      <a href="#projects">Projects</a>
-      <a class="hide-sm" href="#skills">Skills</a>
-      <a class="hide-sm" href="#about">About</a>
-      <a class="hide-sm" href="blog/">Writing</a>
-      <a class="btn sm" href="https://github.com/krishkumar6">GitHub ↗</a>
+    <a class="brand" href="#top"><i>KK</i>Krish Kumar</a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a class="opt" href="#about">About</a>
+      <a class="opt" href="blog/">Writing</a>
+      <a class="btn sm" href="mailto:krishkumarmath@gmail.com">Contact</a>
     </div>
   </div>
 </nav>
 
 <main id="top">
+<div class="glow" aria-hidden="true"></div>
 <div class="wrap">
 
 <!-- HERO -->
 <header class="hero">
-  <span class="badge"><span class="dot" aria-hidden="true"></span>Open to AI engineer roles · Bengaluru, India</span>
-  <h1>Krish <span class="grad">Kumar</span></h1>
-  <p class="typed" aria-label="AI Engineer. I build LLM apps, RAG systems and agents, and I measure whether they work.">
-    <span aria-hidden="true">AI Engineer — <b class="grad" id="typed">I build LLM apps.</b><span class="caret"></span></span>
-  </p>
-  <p class="sub">2026 graduate who builds LLM applications end to end and tests them with real eval sets. <strong>Two deployed projects</strong>, each with a live demo, open source code and honest numbers.</p>
-  <div class="ctas">
-    <a class="btn primary" href="#projects">See my projects →</a>
-    <a class="btn" href="mailto:krishkumarmath@gmail.com">Email me</a>
+  <span class="avail"><span class="dot" aria-hidden="true"></span>AI Engineer · Bengaluru · Open to work</span>
+  <h1>I build AI features that are <em class="s">safe, measured</em> and shipped.</h1>
+  <p class="lead">Hi, I'm Krish. I take an AI idea from a blank repo to a live product: the model calls, the backend, the safety checks and the tests that prove it works. Below are two apps you can try right now.</p>
+  <div class="row">
+    <a class="btn primary" href="#work">See my work ↓</a>
+    <a class="btn" href="https://github.com/krishkumar6">GitHub ↗</a>
     <a class="btn" href="https://linkedin.com/in/krish-kumar24/">LinkedIn ↗</a>
   </div>
-  <div class="stats" role="list">
-    <div role="listitem"><b class="grad">2</b><span>live, deployed LLM projects</span></div>
-    <div role="listitem"><b class="grad">33/34</b><span>Text-to-SQL eval questions correct</span></div>
-    <div role="listitem"><b class="grad">96%</b><span>right page found first, up from 88%</span></div>
-    <div role="listitem"><b class="grad">500+</b><span>LeetCode problems solved</span></div>
+  <div class="proof">
+    <div><b>2</b><span>live AI apps</span></div>
+    <div><b>97%</b><span>accuracy on test questions</span></div>
+    <div><b>144</b><span>automated tests</span></div>
+    <div><b>500+</b><span>LeetCode problems</span></div>
   </div>
 </header>
 
-<!-- PROJECTS -->
-<section class="sec" id="projects" aria-labelledby="projects-h">
+<!-- WORK -->
+<section class="sec" id="work" aria-labelledby="work-h">
   <div class="sec-head reveal">
-    <span class="eyebrow">// Projects</span>
-    <h2 id="projects-h">Things I've built and shipped</h2>
-    <p>Each one is live, open source and measured. Open a case study to see the problem, how it works, the decisions that mattered, and where it still falls short.</p>
+    <span class="kicker">Selected work</span>
+    <h2 id="work-h">Two real problems, <em class="s">solved</em> and live.</h2>
+    <p>Each project shows the problem, what I built and what happened, with a demo you can try and code you can read.</p>
   </div>
 
   <!-- PROJECT 1 -->
-  <article class="project reveal" id="text-to-sql" aria-labelledby="t2s-h">
-    <div class="project-in">
-      <div class="p-top">
-        <div>
-          <span class="eyebrow">01 · LLM + SQL + Evals</span>
-          <h3 id="t2s-h">Text-to-SQL Analytics Agent</h3>
-          <p class="lede">Ask a business question in plain English, like "what is current MRR by plan?", and get the answer, the SQL it ran, a table and a chart.</p>
-        </div>
-        <span class="live"><span class="dot" aria-hidden="true"></span>live</span>
-      </div>
-
-      <figure>
-        <div class="shot"><img src="assets/shots/t2s-answer.webp" width="1400" height="590" alt="The app answering 'What is current MRR by plan?' with a one-line answer, a high-confidence label, 4.4 seconds, 3,212 input and 582 output tokens, and an explanation of how MRR was defined."></div>
-        <figcaption class="shot-cap">A real answer from the live demo, with its confidence, time, token cost and how it defined "MRR".</figcaption>
-      </figure>
-
-      <div class="story">
-        <div class="panel">
-          <span class="step">01 · Problem</span>
-          <h4>Getting a simple number takes an engineer</h4>
-          <p>Managers wait for someone to write SQL just to answer "what's our revenue by plan?". An AI can write that SQL, but it's risky: it might change or delete data, or give a confident wrong number.</p>
-        </div>
-        <div class="panel">
-          <span class="step">02 · Approach</span>
-          <h4>An AI that writes SQL safely</h4>
-          <ul>
-            <li>The LLM returns structured JSON: the SQL, its reasoning and a confidence level</li>
-            <li>A tool checks real values in the database before filtering, so it doesn't guess</li>
-            <li>3 safety layers: a read-only database user, transactions that are always rolled back, and SQL validation with sqlglot</li>
-            <li>If a query fails, it reads the real error and fixes it once</li>
-          </ul>
-        </div>
-        <div class="panel">
-          <span class="step">03 · Results</span>
-          <h4>Measured on 39 test questions</h4>
-          <ul class="results">
-            <li><b class="grad">33 / 34</b><span>SQL questions correct (97%), checked against hand-written queries</span></li>
-            <li><b class="grad">3 / 3</b><span>impossible questions declined instead of making up a number</span></li>
-            <li><b class="grad">0 rows</b><span>changed when asked to "delete the users"</span></li>
-            <li><b class="grad">~2 calls</b><span>to the LLM per question, about 4k tokens</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <ul class="chips" aria-label="Built with">
-        <li>Python</li><li>FastAPI</li><li>PostgreSQL</li><li>sqlglot</li><li>Pydantic</li><li>Tool calling</li><li>Structured output</li><li>Groq</li><li>pytest</li><li>Docker</li>
-      </ul>
-
-      <div class="actions">
-        <a class="btn primary" href="https://text-to-sql-analytics.onrender.com">Try live demo ↗</a>
-        <a class="btn" href="https://github.com/krishkumar6/text-to-sql-analytics">Source code ↗</a>
-        <a class="btn" href="https://github.com/krishkumar6/text-to-sql-analytics/blob/main/evals/REPORT.md">Eval report ↗</a>
-      </div>
-      <p class="note">Free server: the first visit takes about a minute to wake up. Each visitor gets 8 questions an hour to stay within the free LLM quota.</p>
-
-      <details class="case">
-        <summary>Read the full case study</summary>
-        <div class="case-body">
-          <div class="cb"><h4>The problem</h4><div class="cb-body">
-            <p>At most companies, someone in ops or leadership needs a number ("what was MRR last month?", "which plan churns the most?") and has to wait for an engineer to write the query. LLMs can write that SQL, but most demos assume the model behaves. In a real company, two failures are unacceptable: a query that changes data, and a confidently wrong number.</p>
-            <p>The demo database is a made-up SaaS company with 12 months of data: 4,000 users, 5,000 subscriptions, 4,000 orders and 300,000 product events.</p>
-          </div></div>
-
-          <div class="cb"><h4>How it works</h4><div class="cb-body">
-            <ol class="pipe">
-              <li>Read the schema and a business-notes file that defines MRR, churn and activation</li>
-              <li>The LLM returns structured JSON: SQL, reasoning, confidence and an optional clarifying question</li>
-              <li>sqlglot checks the SQL before it runs</li>
-              <li>Run it as a read-only user, with a timeout and a row cap</li>
-              <li>On an error, send the real Postgres message back for one repair attempt</li>
-              <li>Return a table, a chart and a one-line answer, and log the SQL, timings and tokens</li>
-            </ol>
-            <figure>
-              <div class="shot"><img src="assets/shots/t2s-sql.webp" width="1400" height="592" loading="lazy" alt="The generated SQL in an editable box with Copy and Run SQL buttons, above a results table of MRR for the Business, Pro and Starter plans."></div>
-              <figcaption class="shot-cap">The SQL is shown and can be edited and re-run. The same read-only checks apply to edited SQL.</figcaption>
-            </figure>
-          </div></div>
-
-          <div class="cb"><h4>Decisions</h4><div class="cb-body">
-            <ul class="decisions">
-              <li><h5>Safety doesn't depend on the prompt</h5><p>Three separate layers: a read-only Postgres role, a transaction that's always rolled back, and a sqlglot check that blocks multiple statements, writes hidden in a CTE, unknown tables and functions like <code>pg_sleep</code>. One test turns the SQL check off on purpose and confirms the database still refuses the write.</p></li>
-              <li><h5>It says "I don't know"</h5><p>When a question is ambiguous or asks about data that doesn't exist, like NPS or CAC, it asks a clarifying question instead of inventing a number.</p></li>
-              <li><h5>It checks real values before filtering</h5><p>One tool looks up the actual values in a column, so it filters on <code>'pro'</code> because that's what's in the table, not <code>'Pro'</code> because it sounds right.</p></li>
-              <li><h5>A fixed pipeline, not an open-ended agent</h5><p>About 2 LLM calls and roughly 4k tokens per question, so cost and latency are predictable. The repair step runs at most once.</p></li>
-            </ul>
-          </div></div>
-
-          <div class="cb"><h4>Results</h4><div class="cb-body">
-            <p>39 test questions across 8 categories. A query passes only if it returns the same data as a hand-written reference query. For the safety case, every table must be unchanged afterwards.</p>
-            <div class="table"><table>
-              <thead><tr><th>Metric</th><th class="n">Result</th></tr></thead>
-              <tbody>
-                <tr class="hl"><td>Execution accuracy, SQL questions</td><td class="n">33 / 34 = 97%</td></tr>
-                <tr><td>Declined unanswerable questions</td><td class="n">3 / 3</td></tr>
-                <tr><td>Database unchanged after a "delete the users" request</td><td class="n">1 / 1</td></tr>
-                <tr><td>Overall</td><td class="n">37 / 38</td></tr>
-                <tr><td>Tokens per question, in / out</td><td class="n">3,322 / 594</td></tr>
-                <tr><td>LLM calls per question</td><td class="n">1.9</td></tr>
-                <tr><td>Latency, p50 / p95</td><td class="n">17.6 s / 29.8 s</td></tr>
-              </tbody>
-              <caption>gpt-oss-120b via Groq, 30 Sep 2026. 38 of 39 cases ran; the last safety case is pending because the free-tier daily quota ran out.</caption>
-            </table></div>
-            <p class="callout">An earlier 14-question run scored 12/14. Both misses were the same mistake: comparing a timestamp to a bare date, which silently drops the last day of a range. One line in the business-notes file fixed both. Most accuracy gains came from improving that context, not from changing code.</p>
-          </div></div>
-
-          <div class="cb"><h4>Limits</h4><div class="cb-body">
-            <p class="callout miss"><strong>The one miss:</strong> "How many times did paying customers upgrade to a higher paid plan?" The model added a condition the question didn't ask for and returned 8 instead of 100. The fix is to define "upgrade" in the business-notes file.</p>
-            <ul class="plain">
-              <li><strong>It's slow.</strong> A p50 of 17.6 s comes mostly from the free hosted model.</li>
-              <li><strong>The whole schema goes into the prompt.</strong> Fine for 5 tables, not for 200. Next step: retrieve only the relevant tables.</li>
-              <li><strong>Still missing:</strong> follow-up questions, per-user row-level security, and prompt-injection cases in the eval set.</li>
-            </ul>
-            <p class="note">75 tests run against scripted fake LLM responses, so they cost nothing and give the same result every time.</p>
-          </div></div>
-        </div>
-      </details>
+  <article class="project" id="text-to-sql" aria-labelledby="t2s-h">
+    <div class="p-head reveal">
+      <div class="p-meta"><span class="kicker">01 · AI analytics</span><span class="live"><span class="dot" aria-hidden="true"></span>Live</span></div>
+      <h3 id="t2s-h">Text-to-SQL Analytics Agent</h3>
+      <p class="hook">Lets anyone on a team get answers from the company database in plain English, without any risk to the data.</p>
     </div>
+
+    <figure class="reveal">
+      <div class="shot"><img src="assets/shots/t2s-answer.webp" width="1400" height="590" alt="The app answering 'What is current MRR by plan?' with a one-line answer, a high-confidence label, 4.4 seconds, 3,212 input and 582 output tokens, and an explanation of how MRR was defined."></div>
+      <figcaption>A real answer from the live app: "What is current MRR by plan?"</figcaption>
+    </figure>
+
+    <dl class="story reveal">
+      <div><dt>The problem</dt><dd>Simple questions like "what's our revenue by plan?" sit in an engineer's queue. Letting an AI write the SQL is fast but risky: it could change or delete data, or confidently give a wrong number.</dd></div>
+      <div><dt>What I built</dt><dd>An AI analyst that writes the SQL, checks it, and runs it with <strong>read-only access</strong>, then answers with a table, a chart and a one-line summary. It checks real values in the data before filtering, and when it can't answer, it <strong>says so instead of guessing</strong>.</dd></div>
+      <div><dt>The result</dt><dd>It got <strong>33 of 34</strong> test questions right, declined every question it couldn't answer, and <strong>changed nothing</strong> even when told to delete users. Each question costs about 2 AI calls.</dd></div>
+    </dl>
+
+    <div class="nums reveal">
+      <div class="num"><b class="grad">97%</b><span>correct answers on 34 test questions, checked against hand-written SQL</span></div>
+      <div class="num"><b class="grad">3 safety layers</b><span>read-only user, rolled-back transactions and SQL validation</span></div>
+      <div class="num"><b class="grad">~2 AI calls</b><span>per question, about 4k tokens, so it's cheap to run</span></div>
+    </div>
+
+    <p class="stack reveal">Python<span>·</span>FastAPI<span>·</span>PostgreSQL<span>·</span>LLM tool calling<span>·</span>Structured output<span>·</span>sqlglot<span>·</span>pytest<span>·</span>Docker</p>
+
+    <div class="row reveal">
+      <a class="btn primary" href="https://text-to-sql-analytics.onrender.com">Try the live app ↗</a>
+      <a class="btn" href="https://github.com/krishkumar6/text-to-sql-analytics">Read the code ↗</a>
+      <a class="btn" href="https://github.com/krishkumar6/text-to-sql-analytics/blob/main/evals/REPORT.md">Test report ↗</a>
+    </div>
+    <p class="note">Runs on a free server, so the first visit can take about a minute to wake up.</p>
+
+    <details class="deep">
+      <summary><span>Technical deep dive<small>architecture, decisions, full results, limits</small></span></summary>
+      <div class="deep-body">
+        <div class="cb"><h4>How it works</h4><div class="cb-body">
+          <ol class="pipe">
+            <li>Read the schema and a business-notes file that defines MRR, churn and activation</li>
+            <li>The LLM returns structured JSON: SQL, reasoning, confidence and an optional clarifying question</li>
+            <li>sqlglot checks the SQL before it runs</li>
+            <li>Run it as a read-only user, with a timeout and a row cap</li>
+            <li>On an error, send the real Postgres message back for one repair attempt</li>
+            <li>Return a table, a chart and a one-line answer, and log the SQL, timings and tokens</li>
+          </ol>
+          <p>The demo database is a made-up SaaS company with 12 months of data: 4,000 users, 5,000 subscriptions, 4,000 orders and 300,000 product events.</p>
+          <figure>
+            <div class="shot"><img src="assets/shots/t2s-sql.webp" width="1400" height="592" loading="lazy" alt="The generated SQL in an editable box with Copy and Run SQL buttons, above a results table of MRR for the Business, Pro and Starter plans."></div>
+            <figcaption>The SQL is shown and can be edited and re-run. The same read-only checks apply.</figcaption>
+          </figure>
+        </div></div>
+
+        <div class="cb"><h4>Decisions</h4><div class="cb-body">
+          <ul class="decisions">
+            <li><h5>Safety doesn't depend on the prompt</h5><p>A read-only Postgres role, a transaction that's always rolled back, and a sqlglot check that blocks multiple statements, writes hidden in a CTE, unknown tables and functions like <code>pg_sleep</code>. One test turns the SQL check off on purpose and confirms the database still refuses the write.</p></li>
+            <li><h5>It says "I don't know"</h5><p>When a question is ambiguous or asks about data that doesn't exist, like NPS or CAC, it asks a clarifying question instead of inventing a number.</p></li>
+            <li><h5>It checks real values before filtering</h5><p>A tool looks up the actual values in a column, so it filters on <code>'pro'</code> because that's what's in the table, not <code>'Pro'</code> because it sounds right.</p></li>
+            <li><h5>A fixed pipeline, not an open-ended agent</h5><p>About 2 LLM calls and roughly 4k tokens per question, so cost and latency are predictable. The repair step runs at most once.</p></li>
+          </ul>
+        </div></div>
+
+        <div class="cb"><h4>Full results</h4><div class="cb-body">
+          <p>39 test questions across 8 categories. A query passes only if it returns the same data as a hand-written reference query. For the safety case, every table must be unchanged afterwards.</p>
+          <div class="table"><table>
+            <thead><tr><th>Metric</th><th class="n">Result</th></tr></thead>
+            <tbody>
+              <tr class="hl"><td>Execution accuracy, SQL questions</td><td class="n">33 / 34 = 97%</td></tr>
+              <tr><td>Declined unanswerable questions</td><td class="n">3 / 3</td></tr>
+              <tr><td>Database unchanged after a "delete the users" request</td><td class="n">1 / 1</td></tr>
+              <tr><td>Overall</td><td class="n">37 / 38</td></tr>
+              <tr><td>Tokens per question, in / out</td><td class="n">3,322 / 594</td></tr>
+              <tr><td>LLM calls per question</td><td class="n">1.9</td></tr>
+              <tr><td>Latency, p50 / p95</td><td class="n">17.6 s / 29.8 s</td></tr>
+            </tbody>
+            <caption>gpt-oss-120b via Groq, 30 Sep 2026. 38 of 39 cases ran; the last safety case is pending because the free-tier daily quota ran out.</caption>
+          </table></div>
+          <p class="callout">An earlier 14-question run scored 12/14. Both misses were the same mistake: comparing a timestamp to a bare date, which silently drops the last day of a range. One line in the business-notes file fixed both. Most accuracy gains came from better context, not more code.</p>
+        </div></div>
+
+        <div class="cb"><h4>Limits</h4><div class="cb-body">
+          <p class="callout miss"><strong>The one miss:</strong> "How many times did paying customers upgrade to a higher paid plan?" The model added a condition the question didn't ask for and returned 8 instead of 100. The fix is to define "upgrade" in the business-notes file.</p>
+          <ul class="plain">
+            <li><strong>It's slow.</strong> A p50 of 17.6 s comes mostly from the free hosted model.</li>
+            <li><strong>The whole schema goes into the prompt.</strong> Fine for 5 tables, not for 200. Next step: retrieve only the relevant tables.</li>
+            <li><strong>Still missing:</strong> follow-up questions, per-user row-level security, and prompt-injection cases in the test set.</li>
+          </ul>
+          <p class="note">75 tests run against scripted fake LLM responses, so they cost nothing and give the same result every time.</p>
+        </div></div>
+      </div>
+    </details>
   </article>
 
   <!-- PROJECT 2 -->
-  <article class="project reveal" id="document-assistant" aria-labelledby="da-h">
-    <div class="project-in">
-      <div class="p-top">
-        <div>
-          <span class="eyebrow">02 · RAG + Agent</span>
-          <h3 id="da-h">Document Assistant</h3>
-          <p class="lede">Upload PDFs, ask questions, and get answers where every claim links to the exact file and page it came from.</p>
-        </div>
-        <span class="live"><span class="dot" aria-hidden="true"></span>live</span>
-      </div>
-
-      <figure>
-        <div class="shot"><img src="assets/shots/da-answer.webp" width="1400" height="550" loading="lazy" alt="An answer listing the machine learning topics in the GATE 2027 syllabus, with numbered citations that point to DA_GATE2027_Syllabus.pdf page 1 and a quote of the source passage."></div>
-        <figcaption class="shot-cap">Each claim carries a numbered citation, and the source panel shows the file, the page and the passage it came from.</figcaption>
-      </figure>
-
-      <div class="story">
-        <div class="panel">
-          <span class="step">01 · Problem</span>
-          <h4>Answers are buried in long PDFs</h4>
-          <p>The answer to a question is usually one paragraph on one page of a long handbook or manual. A chatbot can answer, but if it doesn't show where the answer came from, you can't trust it.</p>
-        </div>
-        <div class="panel">
-          <span class="step">02 · Approach</span>
-          <h4>Search well, then cite the exact page</h4>
-          <ul>
-            <li>Hybrid search: keyword search (BM25) plus meaning-based vector search, then a reranker picks the best passages</li>
-            <li>Every chunk remembers its page, so each citation points to one exact page</li>
-            <li>Citations the model makes up are dropped, never shown</li>
-            <li>A research mode where an agent can search, calculate and check the web, with a step limit</li>
-          </ul>
-        </div>
-        <div class="panel">
-          <span class="step">03 · Results</span>
-          <h4>Measured on 26 labelled questions</h4>
-          <ul class="results">
-            <li><b class="grad">88% → 96%</b><span>right page found first, after adding BM25 and the reranker</span></li>
-            <li><b class="grad">12s → 3s</b><span>search time on a small free server, after fixing a threading issue</span></li>
-            <li><b class="grad">0.3s</b><span>for a repeat question, from an answer cache with zero LLM tokens</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <ul class="chips" aria-label="Built with">
-        <li>Python</li><li>FastAPI</li><li>RAG</li><li>ChromaDB</li><li>BM25</li><li>Cross-encoder reranker</li><li>Agents</li><li>Groq</li><li>SSE streaming</li><li>Docker</li>
-      </ul>
-
-      <div class="actions">
-        <a class="btn primary" href="https://document-assistant-26d1.onrender.com">Try live demo ↗</a>
-        <a class="btn" href="https://github.com/krishkumar6/Document-Assistence">Source code ↗</a>
-      </div>
-      <p class="note">Free server: the first visit takes about a minute to wake up.</p>
-
-      <details class="case">
-        <summary>Read the full case study</summary>
-        <div class="case-body">
-          <div class="cb"><h4>The problem</h4><div class="cb-body">
-            <p>Policy handbooks, manuals and course notes are long, and the answer to a specific question is usually one paragraph on one page. A chatbot answer is only useful here if you can check it. In a policy or compliance setting, an answer without a source can't be trusted.</p>
-          </div></div>
-
-          <div class="cb"><h4>How it works</h4><div class="cb-body">
-            <ol class="pipe">
-              <li>Split PDFs into chunks that remember which page each character came from</li>
-              <li>Search with both vectors and BM25 keywords</li>
-              <li>Merge both lists, then re-score them with a cross-encoder</li>
-              <li>The LLM answers using only those passages</li>
-              <li>Stream the answer live, with each citation linked to one page</li>
-            </ol>
-            <p>There are two modes. <strong>Quick answer</strong> searches once and answers. <strong>Research</strong> hands the question to an agent with three tools (document search, a calculator and web search), shows each step live, and stops at a step limit so it can't loop forever.</p>
-            <figure>
-              <div class="shot"><img src="assets/shots/da-ask.webp" width="1400" height="587" loading="lazy" alt="The question box with two modes: Quick answer, which searches the PDFs once, and Research, which runs several searches and can calculate and check the web."></div>
-              <figcaption class="shot-cap">Quick answer for simple lookups, Research for multi-step questions.</figcaption>
-            </figure>
-          </div></div>
-
-          <div class="cb"><h4>Decisions</h4><div class="cb-body">
-            <ul class="decisions">
-              <li><h5>Citations land on one exact page</h5><p>Chunks may cross page boundaries so sentences aren't cut in half, but each chunk tracks which characters came from which page. If the model cites a source it was never given, that citation is dropped.</p></li>
-              <li><h5>Hybrid search, because each method misses something</h5><p>Vector search handles reworded questions but misses exact strings like form code <code>NW-IR-3</code>. BM25 finds those but struggles with paraphrases. So it runs both and lets a reranker decide.</p></li>
-              <li><h5>Free to run, not tied to one provider</h5><p>Embeddings, the search index and the reranker all run locally. The LLM is Groq's free tier by default, and it also works with Gemini, a local Ollama model or Claude.</p></li>
-              <li><h5>Measured instead of guessed</h5><p>A labelled question set with the correct file and page for each question, plus scripts that compare chunk sizes and search strategies. Most decisions came from those numbers.</p></li>
-            </ul>
-          </div></div>
-
-          <div class="cb"><h4>Results</h4><div class="cb-body">
-            <div class="table"><table>
-              <thead><tr><th>Search strategy</th><th class="n">500-char chunks</th><th class="n">2,000-char chunks</th></tr></thead>
-              <tbody>
-                <tr><td>Vector search only</td><td class="n">88%</td><td class="n">77%</td></tr>
-                <tr><td>BM25 keyword search only</td><td class="n">85%</td><td class="n">88%</td></tr>
-                <tr class="hl"><td>Hybrid + reranker</td><td class="n">96%</td><td class="n">100%</td></tr>
-              </tbody>
-              <caption>How often the right page was ranked first, on 26 labelled questions.</caption>
-            </table></div>
-            <p>I kept the smaller chunks even though the larger ones ranked slightly better, because small chunks send about <strong>2.7× fewer tokens</strong> to the model per question.</p>
-            <div class="table"><table>
-              <thead><tr><th>Optimization</th><th class="n">Before</th><th class="n">After</th></tr></thead>
-              <tbody>
-                <tr><td>Search time on the free server (512 MB RAM, 0.1 CPU)</td><td class="n">~12 s</td><td class="n">~3 s</td></tr>
-                <tr><td>Reranker time, candidate pool cut from 20 to 12 (same accuracy)</td><td class="n">1.08 s</td><td class="n">0.61 s</td></tr>
-                <tr><td>Repeat question, served from an answer cache</td><td class="n">~3 s</td><td class="n">0.3 s, 0 tokens</td></tr>
-              </tbody>
-            </table></div>
-            <p class="callout">The 12-second searches came from the model runtime starting one busy-waiting thread per visible CPU core, all fighting over a tenth of a CPU. Pinning it to a single thread brought searches down to about 3 seconds.</p>
-          </div></div>
-
-          <div class="cb"><h4>Limits</h4><div class="cb-body">
-            <ul class="plain">
-              <li><strong>26 questions is a small eval set.</strong> Enough to choose between strategies; I'd want a few hundred before trusting the percentages.</li>
-              <li><strong>The free server forgets.</strong> Uploaded files don't survive a restart; only the built-in PDFs are always there.</li>
-              <li><strong>Cold starts.</strong> The first visit after an idle period takes about a minute.</li>
-            </ul>
-            <p class="note">69 tests cover chunking, citations, retrieval, the agent loop, streaming, caching and security.</p>
-          </div></div>
-        </div>
-      </details>
+  <article class="project" id="document-assistant" aria-labelledby="da-h">
+    <div class="p-head reveal">
+      <div class="p-meta"><span class="kicker">02 · AI search over documents</span><span class="live"><span class="dot" aria-hidden="true"></span>Live</span></div>
+      <h3 id="da-h">Document Assistant</h3>
+      <p class="hook">Ask questions about long PDFs and get answers you can check: every claim links to the exact page it came from.</p>
     </div>
+
+    <figure class="reveal">
+      <div class="shot"><img src="assets/shots/da-answer.webp" width="1400" height="550" loading="lazy" alt="An answer listing the machine learning topics in the GATE 2027 syllabus, with numbered citations that point to DA_GATE2027_Syllabus.pdf page 1 and a quote of the source passage."></div>
+      <figcaption>A real answer from the live app, with its source file, page and passage.</figcaption>
+    </figure>
+
+    <dl class="story reveal">
+      <div><dt>The problem</dt><dd>Answers hide inside 100-page handbooks, manuals and policies. An AI can answer quickly, but without a source you can't trust it, especially for policy or compliance questions.</dd></div>
+      <div><dt>What I built</dt><dd>An assistant that searches two ways, by <strong>keywords and by meaning</strong>, re-ranks the results, and answers with a citation to the <strong>exact page</strong>. Citations the AI makes up are dropped. A research mode lets an AI agent search several times, calculate and check the web.</dd></div>
+      <div><dt>The result</dt><dd>It finds the right page first <strong>96% of the time</strong>, up from 88% with basic search. Search time on a small free server went from 12 seconds to 3, and repeat questions answer in 0.3 seconds.</dd></div>
+    </dl>
+
+    <div class="nums reveal">
+      <div class="num"><b class="grad">88% → 96%</b><span>right page found first, on 26 labelled questions</span></div>
+      <div class="num"><b class="grad">12s → 3s</b><span>search time on a 512 MB free server</span></div>
+      <div class="num"><b class="grad">0.3s</b><span>for repeat questions, with zero AI cost</span></div>
+    </div>
+
+    <p class="stack reveal">Python<span>·</span>FastAPI<span>·</span>RAG<span>·</span>ChromaDB<span>·</span>BM25<span>·</span>Reranker<span>·</span>AI agent<span>·</span>Streaming<span>·</span>Docker</p>
+
+    <div class="row reveal">
+      <a class="btn primary" href="https://document-assistant-26d1.onrender.com">Try the live app ↗</a>
+      <a class="btn" href="https://github.com/krishkumar6/Document-Assistence">Read the code ↗</a>
+    </div>
+    <p class="note">Runs on a free server, so the first visit can take about a minute to wake up.</p>
+
+    <details class="deep">
+      <summary><span>Technical deep dive<small>architecture, decisions, full results, limits</small></span></summary>
+      <div class="deep-body">
+        <div class="cb"><h4>How it works</h4><div class="cb-body">
+          <ol class="pipe">
+            <li>Split PDFs into chunks that remember which page each character came from</li>
+            <li>Search with both vectors and BM25 keywords</li>
+            <li>Merge both lists, then re-score them with a cross-encoder</li>
+            <li>The LLM answers using only those passages</li>
+            <li>Stream the answer live over Server-Sent Events, with each citation linked to one page</li>
+          </ol>
+          <p><strong>Quick answer</strong> searches once and answers. <strong>Research</strong> hands the question to an agent with three tools (document search, a calculator and web search), shows each step live, and stops at a step limit so it can't loop forever.</p>
+          <figure>
+            <div class="shot"><img src="assets/shots/da-ask.webp" width="1400" height="587" loading="lazy" alt="The question box with two modes: Quick answer, which searches the PDFs once, and Research, which runs several searches and can calculate and check the web."></div>
+            <figcaption>Quick answer for simple lookups, Research for multi-step questions.</figcaption>
+          </figure>
+        </div></div>
+
+        <div class="cb"><h4>Decisions</h4><div class="cb-body">
+          <ul class="decisions">
+            <li><h5>Citations land on one exact page</h5><p>Chunks may cross page boundaries so sentences aren't cut in half, but each chunk tracks which characters came from which page. If the model cites a source it was never given, that citation is dropped.</p></li>
+            <li><h5>Hybrid search, because each method misses something</h5><p>Vector search handles reworded questions but misses exact strings like form code <code>NW-IR-3</code>. BM25 finds those but struggles with paraphrases. So it runs both and lets a reranker decide.</p></li>
+            <li><h5>Free to run, not tied to one provider</h5><p>Embeddings, the search index and the reranker all run locally. The LLM is Groq's free tier by default, and it also works with Gemini, a local Ollama model or Claude.</p></li>
+            <li><h5>Measured instead of guessed</h5><p>A labelled question set with the correct file and page for each question, plus scripts that compare chunk sizes and search strategies.</p></li>
+          </ul>
+        </div></div>
+
+        <div class="cb"><h4>Full results</h4><div class="cb-body">
+          <div class="table"><table>
+            <thead><tr><th>Search strategy</th><th class="n">500-char chunks</th><th class="n">2,000-char chunks</th></tr></thead>
+            <tbody>
+              <tr><td>Vector search only</td><td class="n">88%</td><td class="n">77%</td></tr>
+              <tr><td>BM25 keyword search only</td><td class="n">85%</td><td class="n">88%</td></tr>
+              <tr class="hl"><td>Hybrid + reranker</td><td class="n">96%</td><td class="n">100%</td></tr>
+            </tbody>
+            <caption>How often the right page was ranked first, on 26 labelled questions.</caption>
+          </table></div>
+          <p>I kept the smaller chunks even though the larger ones ranked slightly better, because small chunks send about <strong>2.7× fewer tokens</strong> to the model per question.</p>
+          <div class="table"><table>
+            <thead><tr><th>Optimization</th><th class="n">Before</th><th class="n">After</th></tr></thead>
+            <tbody>
+              <tr><td>Search time on the free server (512 MB RAM, 0.1 CPU)</td><td class="n">~12 s</td><td class="n">~3 s</td></tr>
+              <tr><td>Reranker time, candidate pool cut from 20 to 12 (same accuracy)</td><td class="n">1.08 s</td><td class="n">0.61 s</td></tr>
+              <tr><td>Repeat question, served from an answer cache</td><td class="n">~3 s</td><td class="n">0.3 s, 0 tokens</td></tr>
+            </tbody>
+          </table></div>
+          <p class="callout">The 12-second searches came from the model runtime starting one busy-waiting thread per visible CPU core, all fighting over a tenth of a CPU. Pinning it to a single thread brought searches down to about 3 seconds.</p>
+        </div></div>
+
+        <div class="cb"><h4>Limits</h4><div class="cb-body">
+          <ul class="plain">
+            <li><strong>26 questions is a small test set.</strong> Enough to choose between strategies; I'd want a few hundred before trusting the percentages.</li>
+            <li><strong>The free server forgets.</strong> Uploaded files don't survive a restart; only the built-in PDFs are always there.</li>
+            <li><strong>Cold starts.</strong> The first visit after an idle period takes about a minute.</li>
+          </ul>
+          <p class="note">69 tests cover chunking, citations, retrieval, the agent loop, streaming, caching and security.</p>
+        </div></div>
+      </div>
+    </details>
   </article>
 </section>
 
-<!-- SKILLS -->
-<section class="sec" id="skills" aria-labelledby="skills-h">
+<!-- WHAT I BRING -->
+<section class="sec" aria-labelledby="bring-h">
   <div class="sec-head reveal">
-    <span class="eyebrow">// Skills</span>
-    <h2 id="skills-h">What I work with</h2>
+    <span class="kicker">What I bring to a team</span>
+    <h2 id="bring-h">How I <em class="s">work</em>.</h2>
   </div>
-  <div class="skills">
-    <div class="skill reveal"><h3><i aria-hidden="true">✦</i>LLM engineering</h3><ul class="chips"><li>RAG</li><li>Agents</li><li>Tool calling</li><li>Structured output</li><li>Evals</li><li>Prompt engineering</li></ul></div>
-    <div class="skill reveal"><h3><i aria-hidden="true">⌕</i>Retrieval</h3><ul class="chips"><li>Hybrid search</li><li>BM25</li><li>Reranking</li><li>Embeddings</li><li>ChromaDB</li></ul></div>
-    <div class="skill reveal"><h3><i aria-hidden="true">{ }</i>Languages</h3><ul class="chips"><li>Python</li><li>SQL</li><li>Java</li></ul></div>
-    <div class="skill reveal"><h3><i aria-hidden="true">⇄</i>Backend</h3><ul class="chips"><li>FastAPI</li><li>Pydantic</li><li>REST APIs</li><li>SSE streaming</li><li>Spring Boot</li></ul></div>
-    <div class="skill reveal"><h3><i aria-hidden="true">▤</i>Data</h3><ul class="chips"><li>PostgreSQL</li><li>sqlglot</li><li>Redis</li></ul></div>
-    <div class="skill reveal"><h3><i aria-hidden="true">⚙</i>Tooling</h3><ul class="chips"><li>Docker</li><li>Git</li><li>pytest</li><li>Render</li></ul></div>
+  <div class="bring">
+    <div class="reveal"><span class="ic" aria-hidden="true">01</span><h3>I ship end to end</h3><p>Both projects go from database to UI to a live URL. I don't stop at a notebook or a demo that only runs on my laptop.</p></div>
+    <div class="reveal"><span class="ic" aria-hidden="true">02</span><h3>I measure, not guess</h3><p>Every project has a test set and a number. When I change something, I can show whether it got better or worse.</p></div>
+    <div class="reveal"><span class="ic" aria-hidden="true">03</span><h3>I care about cost and safety</h3><p>About 2 AI calls per question, free-tier hosting, and safety that doesn't rely on the AI behaving. That's what makes an AI feature safe to launch.</p></div>
   </div>
 </section>
 
 <!-- ABOUT -->
 <section class="sec" id="about" aria-labelledby="about-h">
   <div class="sec-head reveal">
-    <span class="eyebrow">// About</span>
-    <h2 id="about-h">A bit about me</h2>
+    <span class="kicker">About</span>
+    <h2 id="about-h">A bit about me.</h2>
   </div>
   <div class="about reveal">
     <div>
-      <p>I'm a 2026 Electronics and Communication graduate who learned AI engineering outside the curriculum, by building things and measuring them.</p>
-      <p>Before LLM work, I built backend services in Java and Spring Boot, including a ticket-booking API that uses Redis locks to prevent double bookings. That's why I treat AI features as real services: they have to handle failures, cost and load, not just work in a demo.</p>
+      <p>I'm a 2026 Electronics and Communication graduate who taught myself AI engineering outside the curriculum, by building things and measuring them.</p>
+      <p>Before AI, I built backend services in Java and Spring Boot, including a ticket-booking API that uses Redis locks to prevent double bookings. That's why I treat AI features as real software: they have to handle failures, cost and load, not just look good in a demo.</p>
+      <p class="stack" style="margin-top:20px">Python<span>·</span>SQL<span>·</span>Java<span>·</span>LLM APIs<span>·</span>RAG<span>·</span>Agents<span>·</span>Evals<span>·</span>FastAPI<span>·</span>PostgreSQL<span>·</span>Docker</p>
     </div>
     <dl class="facts">
       <div><dt>Based in</dt><dd>Bengaluru, India</dd></div>
       <div><dt>Degree</dt><dd>B.Tech ECE, 2026</dd></div>
-      <div><dt>Looking for</dt><dd>Entry-level AI engineer roles</dd></div>
+      <div><dt>Looking for</dt><dd>AI engineer roles</dd></div>
       <div><dt>LeetCode</dt><dd>500+ problems</dd></div>
     </dl>
   </div>
 </section>
 
+<!-- CONTACT -->
 <section class="contact reveal" aria-labelledby="contact-h">
-  <span class="eyebrow">// Contact</span>
-  <h2 id="contact-h">Let's build something <span class="grad">useful</span></h2>
-  <p>I'm looking for an entry-level AI engineer role. If you're hiring, or know someone who is, I'd love to hear from you.</p>
-  <div class="ctas" style="justify-content:center">
+  <span class="kicker">Contact</span>
+  <h2 id="contact-h">Building something with AI? <em class="s">Let's talk.</em></h2>
+  <p>I'm looking for an AI engineer role where I can ship real features. I reply to every email.</p>
+  <div class="row" style="justify-content:center">
     <a class="btn primary" href="mailto:krishkumarmath@gmail.com">krishkumarmath@gmail.com</a>
-    <a class="btn" href="https://github.com/krishkumar6">GitHub ↗</a>
     <a class="btn" href="https://linkedin.com/in/krish-kumar24/">LinkedIn ↗</a>
   </div>
 </section>
@@ -532,36 +449,18 @@ footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--dim);fon
 </div>
 </main>
 
-<footer><div class="wrap">Krish Kumar · Bengaluru · Every number on this page comes from the project repositories, where you can rerun the evals yourself.</div></footer>
+<footer><div class="wrap">© 2026 Krish Kumar · Every number on this page comes from the project repositories, where you can rerun the tests yourself.</div></footer>
 
 <script>
 (function(){
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.documentElement.classList.add('js');
-
-  // reveal on scroll
   var els = document.querySelectorAll('.reveal');
-  if (reduce || !('IntersectionObserver' in window)) {
-    els.forEach(function(e){ e.classList.add('in'); });
-  } else {
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
-    }, {rootMargin:'0px 0px -8% 0px'});
-    els.forEach(function(e){ io.observe(e); });
-  }
-
-  // typing effect
-  var el = document.getElementById('typed');
-  if (!el || reduce) return;
-  var lines = ['I build LLM apps.', 'I build RAG systems.', 'I build AI agents.', 'I measure if they work.'];
-  var li = 0, ci = lines[0].length, del = true;
-  setTimeout(function tick(){
-    var s = lines[li];
-    if (del) { ci--; if (ci === 0){ del = false; li = (li + 1) % lines.length; } }
-    else { ci++; if (ci === lines[li].length){ del = true; el.textContent = lines[li]; return setTimeout(tick, 1800); } }
-    el.textContent = lines[li].slice(0, ci) || '​';
-    setTimeout(tick, del ? 35 : 65);
-  }, 2200);
+  if (reduce || !('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, {rootMargin:'0px 0px -6% 0px'});
+  els.forEach(function(e){ io.observe(e); });
 })();
 </script>
 </body>
