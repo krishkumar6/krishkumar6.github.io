@@ -78,6 +78,15 @@ h1{font-size:clamp(40px,7vw,64px);font-weight:700;letter-spacing:-.02em}
 .stack{display:flex;flex-wrap:wrap;gap:6px;padding:0}
 .stack li{list-style:none;font:13px/1 var(--mono);padding:6px 9px;border:1px solid var(--rule);border-radius:4px;color:var(--muted)}
 
+/* screenshots */
+.shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.shots{grid-template-columns:1fr}}
+.shots figure{display:grid;gap:8px;align-content:start}
+.shots a{display:block;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:#0F1114}
+.shots a:hover{border-color:var(--accent)}
+.shots img{display:block;width:100%;height:auto}
+.shots figcaption{font-size:14px;color:var(--muted)}
+
 .block{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:24px}
 @media (max-width:760px){.block{grid-template-columns:1fr;gap:10px}}
 .block > h3{font:600 13px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:4px}
@@ -174,6 +183,17 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--rule);color:v
     <ul class="stack" aria-label="Built with">
       <li>Python</li><li>FastAPI</li><li>PostgreSQL</li><li>sqlglot</li><li>Pydantic</li><li>Plotly</li><li>Groq · Claude</li><li>pytest</li><li>Docker</li>
     </ul>
+  </div>
+
+  <div class="shots">
+    <figure>
+      <a href="assets/shots/t2s-answer.webp"><img src="assets/shots/t2s-answer.webp" width="1400" height="590" loading="lazy" alt="The app answering 'What is current MRR by plan?' with a one-line answer, a high-confidence label, 4.4 seconds, 3,212 input and 582 output tokens, and an explanation of how MRR was defined."></a>
+      <figcaption>A plain-English question gets a one-line answer, a confidence label, the time and token cost, and how it defined "MRR".</figcaption>
+    </figure>
+    <figure>
+      <a href="assets/shots/t2s-sql.webp"><img src="assets/shots/t2s-sql.webp" width="1400" height="592" loading="lazy" alt="The generated SQL in an editable box with Copy and Run SQL buttons, above a results table of MRR for the Business, Pro and Starter plans."></a>
+      <figcaption>The SQL it ran is shown and can be edited and re-run. The same read-only checks apply to edited SQL.</figcaption>
+    </figure>
   </div>
 
   <section class="block">
@@ -286,6 +306,17 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--rule);color:v
     <ul class="stack" aria-label="Built with">
       <li>Python</li><li>FastAPI</li><li>Chroma</li><li>BM25</li><li>MiniLM reranker</li><li>Groq</li><li>Server-Sent Events</li><li>Docker</li>
     </ul>
+  </div>
+
+  <div class="shots">
+    <figure>
+      <a href="assets/shots/da-answer.webp"><img src="assets/shots/da-answer.webp" width="1400" height="550" loading="lazy" alt="An answer listing the machine learning topics in the GATE 2027 syllabus, with numbered citations that point to DA_GATE2027_Syllabus.pdf page 1 and a quote of the source passage."></a>
+      <figcaption>Each claim carries a numbered citation, and the source panel shows the file, the page and the passage it came from.</figcaption>
+    </figure>
+    <figure>
+      <a href="assets/shots/da-ask.webp"><img src="assets/shots/da-ask.webp" width="1400" height="587" loading="lazy" alt="The question box with two modes: Quick answer, which searches the PDFs once, and Research, which runs several searches and can calculate and check the web."></a>
+      <figcaption>Two modes: a quick single search, or a research agent that can search several times, calculate and check the web.</figcaption>
+    </figure>
   </div>
 
   <section class="block">
